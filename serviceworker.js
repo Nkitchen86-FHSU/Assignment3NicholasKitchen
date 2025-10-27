@@ -1,4 +1,4 @@
-const CACHE_NAME = "task-manager-v3";
+const CACHE_NAME = "inventory-manager-v1";
 
 const ASSETS_TO_CACHE = [
   "/",
@@ -8,7 +8,7 @@ const ASSETS_TO_CACHE = [
   "/css/materialize.min.css",
   "/js/materialize.min.js",
   "/js/ui.js",
-  "/img/icons/task.png",
+  "/img/icons/inventory.png",
 ];
 
 self.addEventListener("install", (event) => {
@@ -37,7 +37,6 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Fetch event with async/await
 // Fetch event with async/await
 self.addEventListener("fetch", (event) => {
   event.respondWith(
