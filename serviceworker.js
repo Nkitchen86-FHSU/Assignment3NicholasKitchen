@@ -9,6 +9,8 @@ const ASSETS_TO_CACHE = [
   "/js/materialize.min.js",
   "/js/ui.js",
   "/img/icons/inventory.png",
+  "/img/icons/icon-192x192.png",
+  "/img/icons/icon-512x512.png",
 ];
 
 self.addEventListener("install", (event) => {
