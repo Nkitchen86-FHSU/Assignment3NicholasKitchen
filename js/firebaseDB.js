@@ -12,7 +12,15 @@ import {
 
 // Firebase configuration
 const firebaseConfig = {
+  apiKey: "AIzaSyBYKM_V8HbQdlIFNeV3gnj5674c9KJaRK4",
+  authDomain: "inventorymanager-fde68.firebaseapp.com",
+  projectId: "inventorymanager-fde68",
+  storageBucket: "inventorymanager-fde68.firebasestorage.app",
+  messagingSenderId: "511912640439",
+  appId: "1:511912640439:web:8f108887f87b0be83cb232",
+  measurementId: "G-JXEZCHXZ89"
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
