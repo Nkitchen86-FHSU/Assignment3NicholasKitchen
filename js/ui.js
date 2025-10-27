@@ -16,6 +16,25 @@ document.addEventListener("DOMContentLoaded", function () {
   const forms = document.querySelector(".side-form");
   M.Sidenav.init(forms, { edge: "left" });
 
+  // Sort select
+  const sortSelect = document.querySelector("#sort-select");
+  if (sortSelect) {
+    M.FormSelect.init(sortSelect);
+    sortSelect.addEventListener("change", (e) => {
+      currentSort = e.target.value;
+      renderItems();
+    });
+  }
+
+  // Filter input
+  const filterInput = document.querySelector("#filter-input");
+  if (filterInput) {
+    filterInput.addEventListener("input", (e) => {
+      currentFilter = e.target.value.trim();
+      renderItems();
+    })
+  }
+
   // Load items from IndexedDB and sync with Firebase
   loadItems();
   syncItems();
@@ -179,12 +198,20 @@ async function deleteItem(id) {
   checkStorageUsage();
 }
 
+
+// Variables for the sort and filter
+let allItems = [];
+let currentSort = "none";
+let currentFilter = "";
+
 // --- UI Functions ---
 // Load items and sync with Firebase if online
 export async function loadItems() {
   const db = await getDB();
   const itemContainer = document.querySelector(".items");
   itemContainer.innerHTML = "";
+
+  let itemsToDisplay = [];
 
   if (isOnline()) {
     const firebaseItems = await getItemsFromFirebase();
@@ -193,18 +220,42 @@ export async function loadItems() {
 
     for (const item of firebaseItems) {
       await store.put({ ...item, synced: true });
-      displayItem(item);
     }
     await tx.done;
+
+    itemsToDisplay = firebaseItems;
   } else {
     const tx = db.transaction("items", "readonly");
     const store = tx.objectStore("items");
-    const items = await store.getAll();
-    items.forEach((item) => {
-      displayItem(item);
-    });
+    itemsToDisplay = await store.getAll();
     await tx.done;
   }
+
+  allItems = itemsToDisplay;
+  renderItems();
+}
+
+// Render Items in the UI
+function renderItems() {
+  const itemContainer = document.querySelector(".items");
+  if (!itemContainer) return;
+  itemContainer.innerHTML = "";
+
+  // Filter by category
+  let itemsToShow = allItems.filter(item => {
+    if (!currentFilter) return true;
+    return item.category.toLowerCase().includes(currentFilter.toLowerCase());
+  });
+
+  // Sort alphabetically
+  if (currentSort === "name-asc") {
+    itemsToShow.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (currentSort === "name-desc") {
+    itemsToShow.sort((a, b) => b.name.localeCompare(a.name));
+  }
+
+  // Display items
+  itemsToShow.forEach(displayItem);
 }
 
 // Display Item in the UI
@@ -283,7 +334,7 @@ addItemButton.addEventListener("click", async () => {
 });
 
 // Open Edit Form with Existing Item Data
-function openEditForm(id, title, description) {
+function openEditForm(id, name, quantity, category) {
   const nameInput = document.querySelector("#item-name");
   const quantityInput = document.querySelector("#item-quantity");
   const categoryInput = document.querySelector("#item-category");

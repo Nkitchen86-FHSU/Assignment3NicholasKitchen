@@ -50,32 +50,32 @@
     </aside>
 
     <main>
-      <!-- Inventory Items -->
-      <div class="items container grey-text text-darken-1">
-        <div class="card-panel white row valign-wrapper">
-          <div class="col s2">
-            <img src="/img/icons/inventory.png" class="circle responsive-img" alt="Inventory icon" style="max-width: 100%; height: auto"/>
-          </div>
-          <div class="item-detail col s8">
-            <h5 class="item-title black-text">Sample Item</h5>
-            <div class="item-description">10 units in stock</div>
-          </div>
-          <div class="col s2 right-align">
-            <button class="item-delete btn-flat" aria-label="Delete item">
-              <i class="material-icons black-text" style="font-size: 30px">delete</i>
-            </button>
-            <button class="item-edit btn-flat" aria-label="Edit item">
-              <i class="material-icons black-text" style="font-size: 30px">edit</i>
-            </button>
-          </div>
+      <!-- Sort and filter -->
+      <div class="controls container">
+        <div class="row">
+          <div class="input-field col s6"></div>
+            <select id="sort-select">
+              <option value="none" selected>Sort By</option>
+              <option value="name-asc" selected>Name (A-Z)</option>
+              <option value="name-desc" selected>Name (Z-A)</option>
+            </select>
+            <label>Sort Items</label>
+        </div>
+
+        <div class="input-field col s6">
+          <input id="filter-input" type="text" placeholder="Filter by category" />
+          <label for="filter-input">Filter by Category</label>
         </div>
       </div>
 
+      <!-- Inventory Items -->
       <div class="center">
         <button class="btn-floating btn-large sidenav-trigger" data-target="side-form" aria-label="Add new item">
           <i class="material-icons">add</i>
         </button>
       </div>
+
+      <div class="items container grey-text text-darken-1"></div>
 
       <div id="side-form" class="sidenav side-form">
         <form class="add-item container section">
@@ -91,7 +91,7 @@
           </div>
           <div class="input-field">
             <label for="item-category" class="black-text">Category</label>
-            <input placeholder="Enter category" id="item-category" class="validate" type="number" />
+            <input placeholder="Enter category" id="item-category" class="validate" type="text" />
           </div>
           <input type="hidden" id="item-id" />
           <div class="input-field center">
